@@ -43,10 +43,11 @@ RUN apk add --no-cache \
 #install extra php packages
 RUN apk add --no-cache \
   php83-gmp \
-  php83-pear
+  php83-pear \
+  php83-iconv
 
-RUN apk add --no-cache  gnu-libiconv
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
+# RUN apk add --no-cache  gnu-libiconv
+# ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
 # Configure nginx - http
 COPY config/nginx.conf /etc/nginx/nginx.conf
