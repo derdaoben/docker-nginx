@@ -32,11 +32,20 @@ RUN apk add --no-cache \
   php83-pdo_mysql \
   supervisor
 
-  #install extra php packages
+#install extra php packages
 RUN apk add --no-cache \
-  php83-gettext \
-  php83-sockets \
-  php83-gmp \
+  php83-gettext
+
+#install extra php packages
+RUN apk add --no-cache \
+  php83-sockets
+
+#install extra php packages
+RUN apk add --no-cache \
+  php83-gmp
+
+#install extra php packages
+RUN apk add --no-cache \
   php83-crypt
 
 # Configure nginx - http
