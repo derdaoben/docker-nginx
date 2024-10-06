@@ -27,6 +27,9 @@ RUN apk add --no-cache \
   php83-xml \
   php83-xmlreader \
   php83-xmlwriter \
+  php83-pdo \
+  php83-pdo_sqlite \
+  php83-pdo_mysql \
   supervisor
 
 # Configure nginx - http
