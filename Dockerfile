@@ -42,7 +42,8 @@ RUN apk add --no-cache \
 
 #install extra php packages
 RUN apk add --no-cache \
-  php83-gmp
+  php83-gmp \
+  php83-pear
 
 # Configure nginx - http
 COPY config/nginx.conf /etc/nginx/nginx.conf
