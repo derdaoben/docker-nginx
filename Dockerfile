@@ -30,25 +30,13 @@ RUN apk add --no-cache \
   php83-pdo \
   php83-pdo_sqlite \
   php83-pdo_mysql \
-  supervisor
-
-#install extra php packages
-RUN apk add --no-cache \
-  php83-gettext
-
-#install extra php packages
-RUN apk add --no-cache \
-  php83-sockets
-
-#install extra php packages
-RUN apk add --no-cache \
+  php83-gettext \
+  php83-sockets \
   php83-gmp \
   php83-pear \
   php83-iconv \
   php83-simplexml
-
-# RUN apk add --no-cache  gnu-libiconv
-# ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
+  supervisor
 
 # Configure nginx - http
 COPY config/nginx.conf /etc/nginx/nginx.conf
