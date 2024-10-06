@@ -44,7 +44,8 @@ RUN apk add --no-cache \
 RUN apk add --no-cache \
   php83-gmp \
   php83-pear \
-  php83-iconv
+  php83-iconv \
+  php83-simplexml
 
 # RUN apk add --no-cache  gnu-libiconv
 # ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
