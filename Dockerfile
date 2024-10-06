@@ -30,14 +30,15 @@ RUN apk add --no-cache \
   php83-pdo \
   php83-pdo_sqlite \
   php83-pdo_mysql \
+  supervisor
+
+RUN apk add --no-cache \
   php83-gettext \
   php83-sockets \
   php83-gmp \
   php83-crypt \
   php83-json \
   php83-filter \
-  supervisor
-
 # Configure nginx - http
 COPY config/nginx.conf /etc/nginx/nginx.conf
 # Configure nginx - default server
