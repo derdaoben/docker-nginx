@@ -39,7 +39,7 @@ RUN apk add --no-cache \
   php83-gmp \
   php83-crypt \
   php83-json \
-  php83-filter \
+  php83-filter
 
 # Configure nginx - http
 COPY config/nginx.conf /etc/nginx/nginx.conf
