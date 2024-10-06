@@ -44,10 +44,6 @@ RUN apk add --no-cache \
 RUN apk add --no-cache \
   php83-gmp
 
-#install extra php packages
-RUN apk add --no-cache \
-  php83-crypt
-
 # Configure nginx - http
 COPY config/nginx.conf /etc/nginx/nginx.conf
 # Configure nginx - default server
