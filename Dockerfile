@@ -35,7 +35,7 @@ RUN apk add --no-cache \
   php83-gmp \
   php83-pear \
   php83-iconv \
-  php83-simplexml
+  php83-simplexml \
   supervisor
 
 # Configure nginx - http
