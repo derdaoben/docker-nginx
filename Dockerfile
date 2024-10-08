@@ -1,6 +1,8 @@
 ARG NGINX_VERSION=mainline
 FROM nginx:${NGINX_VERSION}-alpine
 
+WORKDIR /var/www/html
+
 COPY config/nginx.conf /etc/nginx/nginx.conf
 
 COPY config/conf.d /etc/nginx/conf.d/
