@@ -9,8 +9,7 @@ ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/relea
 RUN install-php-extensions gd gmp sockets gettext pdo_mysql
 
 # enable mod_reqrite
-RUN sed -i '/LoadModule rewrite_module/s/^#//g' /usr/local/apache2/conf/httpd.conf && \
-    sed -i 's#AllowOverride [Nn]one#AllowOverride All#' /usr/local/apache2/conf/httpd.conf
+RUN a2enmod rewrite
 
 EXPOSE 80
 
