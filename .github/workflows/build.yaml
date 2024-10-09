@@ -3,7 +3,8 @@ name: Test & build Docker image
 on:
   push:
     branches: [master]
-    tags: ["*"]
+    paths:
+      - DOCKERFILE
   pull_request:
   schedule:
     - cron: "0 2 * * 6"
