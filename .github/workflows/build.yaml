@@ -7,7 +7,7 @@ on:
       - DOCKERFILE
   pull_request:
   schedule:
-    - cron: "0 2 * * 6"
+    - cron: "0 2 * * 2,5"
 
 env:
   IMAGE_NAME: derdaoben/php8.3-apache
