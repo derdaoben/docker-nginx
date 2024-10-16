@@ -1,6 +1,8 @@
 ARG PHP_VERSION=8.3
+ARG NGINX_VERSION=mainline
+
 FROM php:${PHP_VERSION}-fpm-alpine
-From nginx:mainline-alpine
+From nginx:${NGINX_VERSION}-alpine
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
