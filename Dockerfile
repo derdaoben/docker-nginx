@@ -7,8 +7,8 @@ WORKDIR /var/www/html
 COPY config/nginx.conf /etc/nginx/nginx.conf
 RUN rm /etc/nginx/conf.d/default.conf
 COPY config/default.conf /etc/nginx/conf.d/default.conf
-COPY src/status.html /var/www/html/status.html123
+COPY src/status.html /var/www/html/status.html
 EXPOSE 80
 
 # Configure a healthcheck to validate that everything is up&running
-HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:80/status.html123 || exit 1
+HEALTHCHECK --timeout=3s CMD curl --silent --fail http://127.0.0.1:80/status.html || exit 1
