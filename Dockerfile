@@ -19,4 +19,4 @@ COPY config/conf.d/default.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 
 # Configure a healthcheck to validate that everything is up&running
-HEALTHCHECK --timeout=3s CMD curl --silent --fail http://127.0.0.1:80/ || exit 1
+HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:80/ || exit 1
