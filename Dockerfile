@@ -15,7 +15,6 @@ WORKDIR /var/www/html
 COPY config/nginx.conf /etc/nginx/nginx.conf
 RUN rm /etc/nginx/conf.d/default.conf
 COPY config/default.conf /etc/nginx/conf.d/default.conf
-COPY src/status.html /var/www/html/status.html
 EXPOSE 80
 
 # Configure a healthcheck to validate that everything is up&running
