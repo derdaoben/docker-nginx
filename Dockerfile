@@ -11,9 +11,8 @@ COPY config/nginx.conf /etc/nginx/nginx.conf
 RUN rm /etc/nginx/conf.d/default.conf
 COPY config/conf.d/default.conf /etc/nginx/conf.d/default.conf
 
-# Add php-extension helper
+# Add php-extension helper and install extensions
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-
 RUN install-php-extensions gd gmp sockets gettext pdo_mysql
 
 EXPOSE 80
