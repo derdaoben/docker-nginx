@@ -10,7 +10,7 @@ on:
     - cron: "0 2 * * 5"
 
 env:
-  IMAGE_NAME: derdaoben/php8.3-apache
+  IMAGE_NAME: derdaoben/php8.3-nginx
   IMAGE_TAG: ${{ github.sha }}
   REGISTRY: ghcr.io
 
