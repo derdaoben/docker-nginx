@@ -8,8 +8,7 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN install-php-extensions gd gmp sockets gettext pdo_mysql
 
-
-From nginx:${NGINX_VERSION}-alpine
+FROM nginx:${NGINX_VERSION}-alpine
 WORKDIR /var/www/html
 
 # copy config
@@ -17,9 +16,7 @@ COPY config/nginx.conf /etc/nginx/nginx.conf
 RUN rm /etc/nginx/conf.d/default.conf
 COPY config/conf.d/default.conf /etc/nginx/conf.d/default.conf
 
-
-
 EXPOSE 80
 
 # Configure a healthcheck to validate that everything is up&running
-HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:80/ || exit 1
+HEALTHCHECK --timeout=30s CMD curl --silent --fail http://127.0.0.1:80/ || exit 1
