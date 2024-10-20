@@ -28,7 +28,7 @@ COPY config/php.ini-production "$PHP_INI_DIR/php.ini"
 
 # Add php-extension helper and install extensions
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-RUN install-php-extensions gd gmp sockets gettext pdo_mysql
+RUN install-php-extensions gd gmp sockets gettext pdo_mysql mysqli
 
 COPY entry/docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
