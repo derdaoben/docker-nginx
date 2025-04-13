@@ -6,7 +6,7 @@ ENV WEBROOT=/var/www/html
 
 # Installiere nginx
 RUN apk update && \
-    apk add --no-cache nginx envsubst && \
+    apk add --no-cache nginx envsubst iputils-ping && \
     mkdir -p /run/nginx
 
 WORKDIR /var/www/html
@@ -14,7 +14,6 @@ WORKDIR /var/www/html
 # copy config
 COPY config/nginx.conf /etc/nginx/nginx.conf
 COPY config/default.conf /etc/nginx/conf.d/default.conf.tmpl
-
 
 
 EXPOSE 80
