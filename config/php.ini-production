@@ -1848,3 +1848,13 @@ ldap.max_links = -1
 
 ; List of headers files to preload, wildcard patterns allowed.
 ;ffi.preload=
+
+[opentelemetry]
+; Enable OpenTelemetry extension
+extension=opentelemetry.so
+
+; OpenTelemetry configuration
+; Auto-instrumentation for HTTP requests, database queries, etc.
+otel.traces.enabled=1
+otel.logs.enabled=0
+otel.metrics.enabled=0
