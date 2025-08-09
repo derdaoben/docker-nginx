@@ -21,6 +21,16 @@ EXPOSE 80
 
 COPY config/php.ini-production "$PHP_INI_DIR/php.ini"
 
+# Configure PHP-FPM to log errors to stderr (which will appear in docker logs)
+# Only log errors and warnings, no notices. Never display errors on website.
+RUN echo "error_log = /proc/self/fd/2" >> "$PHP_INI_DIR/php.ini" && \
+    echo "display_errors = Off" >> "$PHP_INI_DIR/php.ini" && \
+    echo "display_startup_errors = Off" >> "$PHP_INI_DIR/php.ini" && \
+    echo "log_errors = On" >> "$PHP_INI_DIR/php.ini" && \
+    echo "error_reporting = E_ERROR | E_WARNING | E_PARSE" >> "$PHP_INI_DIR/php.ini" && \
+    echo "catch_workers_output = yes" >> /usr/local/etc/php-fpm.d/www.conf && \
+    echo "decorate_workers_output = no" >> /usr/local/etc/php-fpm.d/www.conf
+
 # COPY --from=nginx /etc/nginx /etc/nginx
 # COPY --from=nginx /etc/nginx /etc/nginx
 # COPY --from=php /usr/local/bin/php /usr/local/bin/php
