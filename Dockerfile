@@ -35,4 +35,4 @@ RUN chmod +x /docker-entrypoint.sh && \
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 # Configure a healthcheck to validate that everything is up&running
-HEALTHCHECK --timeout=3s CMD curl --silent --fail http://127.0.0.1:80/123status-traefik.php || exit 1
+HEALTHCHECK --timeout=1s CMD curl --silent --fail http://127.0.0.1:80/123status-traefik || exit 1
