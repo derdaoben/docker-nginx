@@ -1,6 +1,6 @@
-# Docker Nginx + PHP-FPM mit OpenTelemetry Tracing
+# Docker Nginx + PHP-FPM
 
-Ein Docker-Container, der Nginx und PHP-FPM mit integriertem OpenTelemetry Tracing für Jaeger kombiniert.
+Docker-Container mit nginx und php
 
 ## 🚀 Features
 
