@@ -1,193 +1,124 @@
-# Docker Nginx + PHP-FPM mit OpenTelemetry Tracing
+# Docker Nginx + PHP-FPM
 
-Ein Docker-Container, der Nginx und PHP-FPM mit integriertem OpenTelemetry Tracing für Jaeger kombiniert.
+A Docker container that combines Nginx and PHP-FPM.
 
 ## 🚀 Features
 
-- **Nginx + PHP-FPM**: Hochperformante Webserver-Konfiguration
-- **OpenTelemetry Integration**: 
-  - Nginx OpenTelemetry Modul (aus Quellcode kompiliert)
-  - PHP OpenTelemetry Extension
-- **Jaeger Tracing**: Vollständige Request-Verfolgung
-- **Alpine Linux**: Minimale Container-Größe
-- **Healthcheck**: Automatische Gesundheitsüberwachung
+- **Nginx + PHP-FPM**
+- **Alpine Linux**
+- **Healthcheck**
 
-## 📦 Schnellstart
+## 📦 Quick Start
 
-### Container bauen
+> ⚠️ **Warning**: This container is designed for use with an ingress controller like Traefik. Therefore only port 80 enabled in nginx.
+
+### Build container
 ```bash
-docker build -t nginx-php-otel .
+docker build -t nginx-php .
 ```
 
-### Container starten (einfach)
+### Start container (simple)
 ```bash
-docker run -d -p 80:80 --name nginx-php nginx-php-otel
+docker run -d -p 80:80 --name nginx-php nginx-php
 ```
 
-### Mit Jaeger (empfohlen)
-Erstellen Sie eine `docker-compose.yml`:
+### Compose
+Create a `docker-compose.yml`:
 
 ```yaml
 version: '3.8'
 
 services:
   nginx-php:
-    build: .
+    image: ghcr.io/derdaoben/nginx:master
+    volumes:
+      - /myWebsite:/var/www/html:ro
     ports:
       - "80:80"
-    environment:
-      - WEBROOT=/var/www/html
-      # OpenTelemetry Konfiguration
-      - OTEL_SERVICE_NAME=nginx-php-app
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318
-      - OTEL_TRACES_EXPORTER=otlp
-    depends_on:
-      - jaeger
 
-  jaeger:
-    image: jaegertracing/all-in-one:latest
-    ports:
-      - "16686:16686"  # Jaeger UI
-      - "4318:4318"    # OTLP HTTP receiver
-    environment:
-      - COLLECTOR_OTLP_ENABLED=true
 ```
 
-Dann starten:
+Then start:
 ```bash
 docker-compose up -d
 ```
 
-## 🔧 Konfiguration
+## 🔧 Configuration
 
-### Verzeichnisstruktur
+### Directory Structure
 ```
 ├── Dockerfile
 ├── config/
-│   ├── nginx.conf          # Nginx Hauptkonfiguration
-│   ├── default.conf        # Virtual Host Konfiguration
-│   └── php.ini-production  # PHP Konfiguration
+│   ├── nginx.conf          # Nginx main configuration
+│   ├── default.conf        # Virtual host configuration
+│   └── php.ini-production  # PHP configuration
 ├── entry/
-│   └── docker-entrypoint.sh # Container-Startskript
+│   └── docker-entrypoint.sh # Container startup script
 └── README.md
 ```
 
-### Umgebungsvariablen
+### Environment Variables
 
-| Variable | Standard | Beschreibung |
-|----------|----------|--------------|
+| Variable | Default | Description |
+|----------|---------|-------------|
 | `WEBROOT` | `/var/www/html` | Document Root |
-| `OTEL_SERVICE_NAME` | - | Service-Name in Jaeger |
-| `OTEL_EXPORTER_OTLP_ENDPOINT` | - | Jaeger OTLP Endpoint |
-| `OTEL_TRACES_EXPORTER` | `otlp` | Trace Exporter Type |
 
 ### PHP Extensions
 
-Installierte Extensions:
-- `gd` - Bildverarbeitung
-- `gmp` - Mathematische Funktionen
-- `sockets` - Socket-Kommunikation
-- `gettext` - Internationalisierung
+Installed extensions:
+- `gd` - Image processing
+- `gmp` - Mathematical functions
+- `sockets` - Socket communication
+- `gettext` - Internationalization
 - `pdo_mysql` - MySQL PDO Driver
 - `mysqli` - MySQL Improved Extension
-- `opentelemetry` - OpenTelemetry Tracing
+- `pdo_pgsql` - PostgreSQL PDO Driver
 
-## 📊 Monitoring & Tracing
-
-### Jaeger UI
-Nach dem Start mit docker-compose:
-- **URL**: http://localhost:16686
-- **Service**: Wählen Sie "nginx-php-app"
-- **Traces**: Zeigt alle HTTP-Requests
+## 📊 Monitoring
 
 ### Healthcheck
-- **Endpoint**: http://localhost/123status-traefik.php
-- **Intervall**: Alle 30 Sekunden
-- **Timeout**: 3 Sekunden
+- **Endpoint**: http://localhost/123status-traefik
+- **Interval**: Every 30 seconds
+- **Timeout**: 3 seconds
+- Logging enabled
 
 ### Logs
 ```bash
-# Container-Logs anzeigen
+# Show container logs
 docker logs nginx-php
 
-# Mit docker-compose
+# With docker-compose
 docker-compose logs -f nginx-php
 ```
 
-## 🛠️ Entwicklung
+## 🛠️ Development
 
-### Eigene PHP-Dateien hinzufügen
+### Add custom PHP files
 ```bash
-# Dateien in den Container kopieren
+# Copy files to container
 docker cp myapp.php nginx-php:/var/www/html/
 
-# Oder Volume mounten
-docker run -v $(pwd)/src:/var/www/html -p 80:80 nginx-php-otel
-```
-
-### Custom Nginx Konfiguration
-Bearbeiten Sie `config/nginx.conf` oder `config/default.conf` und rebuilden Sie:
-```bash
-docker build -t nginx-php-otel .
+# Or mount volume
+docker run -v /myapp:/var/www/html -p 80:80 nginx-php
 ```
 
 ### Debugging
 ```bash
-# In Container einsteigen
+# Enter container
 docker exec -it nginx-php /bin/sh
 
-# Nginx-Konfiguration testen
+# Test Nginx configuration
 docker exec nginx-php nginx -t
 
-# PHP-FPM Status
+# PHP-FPM status
 docker exec nginx-php php-fpm -t
 ```
 
-## 🔍 OpenTelemetry Details
+## 📚 Further Reading
 
-### Nginx Tracing
-- **Automatisch**: Jeder HTTP-Request wird getrackt
-- **Attribute**: Method, URI, Status Code, Response Time
-- **Span Namen**: Basierend auf Request-Typ (php_request, static_asset)
-
-### PHP Tracing
-- **Extension**: OpenTelemetry PHP Extension
-- **Auto-Instrumentation**: HTTP-Requests und Database-Queries
-- **Custom Spans**: Können im PHP-Code hinzugefügt werden
-
-### Trace Korrelation
-- Nginx-Traces und PHP-Traces sind automatisch verknüpft
-- Trace-IDs werden über FastCGI-Parameter übertragen
-- Vollständige Request-Pipeline sichtbar
-
-## 🚨 Troubleshooting
-
-### Container startet nicht
-```bash
-# Logs prüfen
-docker logs nginx-php
-
-# Konfiguration testen
-docker run --rm nginx-php-otel nginx -t
-```
-
-### Tracing funktioniert nicht
-1. Prüfen Sie die Jaeger-Verbindung
-2. Kontrollieren Sie Umgebungsvariablen
-3. Logs auf OpenTelemetry-Fehler prüfen
-
-### Performance-Probleme
-- Container-Ressourcen erhöhen
-- PHP-FPM Worker anpassen in `config/default.conf`
-- Nginx Worker Processes in `config/nginx.conf`
-
-## 📚 Weiterführende Links
-
-- [OpenTelemetry Documentation](https://opentelemetry.io/)
-- [Jaeger Tracing](https://www.jaegertracing.io/)
 - [Nginx Documentation](https://nginx.org/en/docs/)
 - [PHP-FPM Configuration](https://www.php.net/manual/en/install.fpm.php)
 
-## 📄 Lizenz
+## 📄 License
 
-MIT License - siehe Details in der jeweiligen Software-Dokumentation.
+MIT License - see details in the respective software documentation.
