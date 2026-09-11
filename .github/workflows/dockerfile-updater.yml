@@ -12,6 +12,6 @@ jobs:
         uses: actions/checkout@v7
 
       - name: 📤 Update Dockerfiles
-        uses: ludeeus/dockerfile-updater@main
+        uses: ludeeus/dockerfile-updater@eaf8ea79220d076eb46c127fa9895e3de3e0a512
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
